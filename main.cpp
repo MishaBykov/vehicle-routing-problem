@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-const unsigned long max = 10;
+unsigned long max = 10;
 
 std::vector< std::vector< int > > a(max), b(max);
 std::vector< int > way(max), best_way(max);
@@ -10,7 +10,6 @@ int best_cost;
 int n;
 
 void solve(int v, int count, int cost) {
-    int i;
     if (cost > best_cost) return;
     if (count == n) {
         cost = cost + a[v][0];
