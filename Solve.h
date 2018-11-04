@@ -51,8 +51,8 @@ void Solve::solve(int v, int count, int cost) {
     for (int i = 0; i < n; i++) {
         if (n_new[b[v][i]])
             solve(b[v][i], count + 1, cost + a[v][b[v][i]]);
-        n_new[v] = true;
     }
+    n_new[v] = true;
 }
 
 std::vector<int> Solve::getBestWay() {

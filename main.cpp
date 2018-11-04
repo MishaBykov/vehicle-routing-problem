@@ -8,7 +8,7 @@
 int main() {
     setlocale(LC_ALL, "rus");
     Solve solve("test_full.txt");
-    solve.solve(0, 1, 0);
+    solve.solve(0, 0, 0);
     auto path = solve.getBestWay();
     auto cost = solve.getBestCost();
     std::cout << cost << std::endl;
