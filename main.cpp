@@ -1,42 +1,20 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include "Solve.h"
 
-unsigned long max = 10;
-
-std::vector< std::vector< int > > a(max), b(max);
-std::vector< int > way(max), best_way(max);
-std::vector< bool > n_new(max);
-int best_cost;
-int n;
-
-void solve(int v, int count, int cost) {
-    if (cost > best_cost) return;
-    if (count == n) {
-        cost = cost + a[v][0];
-        way[n] = v;
-
-        if (cost < best_cost) {
-            best_cost = cost;
-            best_way = way;
-        }
-        return;
-    }
-    n_new[v] = false;
-    way[count]=v;
-    for (int i = 0; i < n; i++){
-        if (n_new[b[v][i]])
-            solve(b[v][i], count + 1, cost+a[v][b[v][i]]);
-        n_new[v] = true;
-    }
-}
 
 int main() {
     setlocale(LC_ALL, "rus");
-    for (int i = 0; i < max; i++){
-        a[i].resize(max);
-        b[i].resize(max);
+    Solve solve("test_full.txt");
+    solve.solve(0, 1, 0);
+    auto path = solve.getBestWay();
+    auto cost = solve.getBestCost();
+    std::cout << cost << std::endl;
+    for (int i : path) {
+        std::cout << i + 1 << ' ';
     }
-    solve(1, 1, 0);
 
     return 0;
 }
