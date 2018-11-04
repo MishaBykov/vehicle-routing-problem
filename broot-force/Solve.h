@@ -61,7 +61,7 @@ std::vector<int> Solve::getBestWay() {
 
 Solve::Solve(const std::string &file_a) {
     std::ifstream f_in;
-    f_in.open("../" + file_a);
+    f_in.open(file_a);
     std::string buf;
     while (!f_in.eof()) {
         a.emplace_back();

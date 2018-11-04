@@ -3,9 +3,9 @@
 //
 
 #include <cmath>
-#include "Cluster.h"
+#include "cluster.h"
 
-void Cluster::InitialCenter(int k, Cluster * clusarr, std::vector<POINT>& vpt){
+void Cluster::InitialCenter(int k, Cluster * clusarr, std::vector<Point>& vpt){
 
     int size = vpt.size();
     int step = size/k;
@@ -21,9 +21,9 @@ void Cluster::SetCenter(){
     int sumX = 0, sumY = 0;
     int i = 0;
     int size = Size();
-    for(; i<size;sumX+=scores[i].x,i++);//the centers of mass by x
+    for(; i<size;sumX+=points[i].x,i++);//the centers of mass by x
     i = 0;
-    for(; i<size;sumY+=scores[i].y, i++);//the centers of mass by y
+    for(; i<size;sumY+=points[i].y, i++);//the centers of mass by y
     lastX = curX;
     lastY = curY;
     curX = sumX/size;
@@ -31,10 +31,10 @@ void Cluster::SetCenter(){
 }
 
 void Cluster::Clear(){
-    scores.clear();
+    points.clear();
 }
 
-Cluster * Cluster::Bind(int k, Cluster * clusarr, std::vector<POINT>& vpt){
+Cluster * Cluster::Bind(int k, Cluster * clusarr, std::vector<Point>& vpt){
     for(int j = 0; j < k;j++)
         clusarr[j].Clear();// Чистим кластер перед использованием
     int size = vpt.size();
@@ -54,7 +54,7 @@ Cluster * Cluster::Bind(int k, Cluster * clusarr, std::vector<POINT>& vpt){
     return clusarr;
 }
 
-void Cluster::Start(int k, Cluster * clusarr, std::vector<POINT>& vpt){
+void Cluster::Start(int k, Cluster * clusarr, std::vector<Point>& vpt){
     Cluster::InitialCenter(k,clusarr,vpt);
     for(;;){//Запускаем основной цикл
         int chk = 0;
@@ -69,7 +69,7 @@ void Cluster::Start(int k, Cluster * clusarr, std::vector<POINT>& vpt){
 }
 
 unsigned long Cluster::Size() {
-    return scores.size();
+    return points.size();
 }
 
-void Cluster::Add(POINT pt) { scores.push_back(pt); }
+void Cluster::Add(Point pt) { points.push_back(pt); }

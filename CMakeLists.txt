@@ -7,4 +7,4 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(
         vehicle-routing-problem
         main.cpp
-        Solve.h Cluster.cpp Cluster.h)
+        broot-force/Solve.h k-means/cluster.cpp k-means/cluster.h k-means/k-means.cpp k-means/k-means.h)
