@@ -5,71 +5,50 @@
 #include <cmath>
 #include "cluster.h"
 
-void Cluster::InitialCenter(int k, Cluster * clusarr, std::vector<Point>& vpt){
-
-    int size = vpt.size();
-    int step = size/k;
-    int steper = 0;
-
-    for(int i = 0;i < k;i++,steper+=step){
-        clusarr[i].curX = vpt[steper].x;
-        clusarr[i].curY = vpt[steper].y;
+void Cluster::updateCenter(){
+    Point oldCenter;
+    unsigned long size = Size();
+    Point point_max{0, 0}, point_min{0, 0};
+    if (size > 0) {
+        point_min.x = points[0].x;
+        point_min.y = points[0].y;
+        point_max.x = points[0].x;
+        point_max.y = points[0].y;
     }
-}
+    else
+        return;
 
-void Cluster::SetCenter(){
-    int sumX = 0, sumY = 0;
-    int i = 0;
-    int size = Size();
-    for(; i<size;sumX+=points[i].x,i++);//the centers of mass by x
-    i = 0;
-    for(; i<size;sumY+=points[i].y, i++);//the centers of mass by y
-    lastX = curX;
-    lastY = curY;
-    curX = sumX/size;
-    curY = sumY/size;
+    for(int i = 1; i < size; i++) {
+        if ( point_min.x > points[i].x )
+            point_min.x = points[i].x;
+
+        if ( point_min.y > points[i].y )
+            point_min.y = points[i].y;
+
+        if ( point_max.x < points[i].x )
+            point_max.x = points[i].x;
+
+        if ( point_max.y < points[i].y )
+            point_max.y = points[i].y;
+    }
+    oldCenter = center;
+    center.x = (point_min.x + point_max.x) / 2;
+    center.y = (point_min.y + point_max.y)/ 2;
+    isUpdateCenter = !(oldCenter == center);
 }
 
 void Cluster::Clear(){
     points.clear();
 }
 
-Cluster * Cluster::Bind(int k, Cluster * clusarr, std::vector<Point>& vpt){
-    for(int j = 0; j < k;j++)
-        clusarr[j].Clear();// Чистим кластер перед использованием
-    int size = vpt.size();
-    for(int i = 0; i < size; i++){// Запускаем цикл по всем пикселям множества
-        int min = sqrt(
-                pow((float)clusarr[0].curX-vpt[i].x,2)+pow((float)clusarr[0].curY-vpt[i].y,2)
-        );
-        Cluster * cl = &clusarr[0];
-        for(int j = 1; j < k; j++){
-            int tmp = sqrt(
-                    pow((float)clusarr[j].curX-vpt[i].x,2)+pow((float)clusarr[j].curY-vpt[i].y,2)
-            );
-            if(min > tmp){ min = tmp; cl = &clusarr[j];}// Ищем близлежащий кластер
-        }
-        cl->Add(vpt[i]);// Добавляем в близ лежащий кластер текущий пиксель
-    }
-    return clusarr;
-}
-
-void Cluster::Start(int k, Cluster * clusarr, std::vector<Point>& vpt){
-    Cluster::InitialCenter(k,clusarr,vpt);
-    for(;;){//Запускаем основной цикл
-        int chk = 0;
-        Cluster::Bind(k,clusarr,vpt);//Связываем точки с кластерами
-        for(int j = 0; j < k;j++)//Высчитываем новые координаты центроидов
-            clusarr[j].SetCenter();
-        for(int p = 0; p<k;p++)//Проверяем не совпадают ли они с предыдущими цент-ми
-            if(clusarr[p].curX == clusarr[p].lastX && clusarr[p].curY == clusarr[p].lastY)
-                chk++;
-        if(chk == k) return;//Если да выходим с цикла
-    }
-}
-
 unsigned long Cluster::Size() {
     return points.size();
 }
 
-void Cluster::Add(Point pt) { points.push_back(pt); }
+void Cluster::Add(Point point) { points.push_back(point); }
+
+Cluster::Cluster() {}
+
+bool Point::operator==(Point point) {
+    return this->x == point.x && this->y == point.y;
+}

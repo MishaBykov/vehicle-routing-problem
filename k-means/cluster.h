@@ -13,7 +13,9 @@ struct Point {
     int x;
     int y;
 
-    static int distanse(Point p1, Point p2) {
+    bool operator==(Point point);
+
+    static int distance(Point p1, Point p2) {
         return abs(p1.x - p2.x) + abs(p1.y - p2.y);
     }
 };
@@ -21,21 +23,26 @@ struct Point {
 class Cluster {
     std::vector <Point> points;
 
-    int curX, curY;//координаты текущего центроида
-    int lastX, lastY;//координаты предыдущего центоида
-    unsigned long Size();//получаем размер вектора
+    Point center;
+    Point oldCenter;
+
+    bool isUpdateCenter = false;
+
 public:
-    inline void Add(Point pt);//Добавляем пиксель к кластеру
-    void SetCenter();
+    explicit Cluster();
 
-    void Clear();//Чистим вектор
-    static Cluster *Bind(int k, Cluster *clusarr, std::vector <Point> &vpt);
+    unsigned long Size();//получаем размер вектора
 
-    static void InitialCenter(int k, Cluster *clusarr, std::vector <Point> &vpt);;
+    void Add(Point pt);//Добавляем пиксель к кластеру
+    void updateCenter();
 
-    static void Start(int k, Cluster *clusarr, std::vector <Point> &vpt);
+    void Clear(); //Чистим вектор
 
-    inline Point &at(unsigned i) { return scores.at(i); }//Доступ  к элементам вектора
+    Point &at(unsigned i) { return points.at(i); }//Доступ  к элементам вектора
+    Point getCenter() { return center; }
+    Point getOldCenter() { return oldCenter; }
+
+    bool isUpadteCenter() { return isUpdateCenter; }
 };
 
 

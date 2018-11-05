@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "broot_force/Solve.h"
+#include "broot-force/Solve.h"
 
 
 int main() {
