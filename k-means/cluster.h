@@ -11,7 +11,7 @@
 #include <string>
 #include <fstream>
 #include <cmath>
-#include "../point.h"
+#include "../core/point.h"
 
 class Cluster {
     std::vector <Point> points;

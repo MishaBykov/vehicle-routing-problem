@@ -10,30 +10,33 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include "../core/point.h"
 
 class Solve {
 
-    std::vector<std::vector<int> > a, b;
-    std::vector<int> way, best_way;
+    std::vector<std::vector<double> > a;
+    std::vector<std::vector<int> > b;
+    std::vector<double> way, best_way;
     std::vector<bool> n_new;
-    int best_cost;
+    double best_cost;
     unsigned long n;
 
-    static bool compare(std::pair<int, int> a, std::pair<int, int> b) {
+    static bool compare(std::pair<double, double> a, std::pair<double, double> b) {
         return a.second < b.second;
     }
 
 public:
 
     explicit Solve(const std::string &file_a);
+    explicit Solve(const std::vector<Point> &points);
 
-    void solve(int v, int count, int cost);
+    void solve(int v, int count, double cost);
 
-    std::vector<int> getBestWay();
-    int getBestCost();
+    std::vector<double> getBestWay();
+    double getBestCost();
 };
 
-void Solve::solve(int v, int count, int cost) {
+void Solve::solve(int v, int count, double cost) {
     if (cost > best_cost)
         return;
     if (count == n - 1) {
@@ -55,7 +58,7 @@ void Solve::solve(int v, int count, int cost) {
     n_new[v] = true;
 }
 
-std::vector<int> Solve::getBestWay() {
+std::vector<double> Solve::getBestWay() {
     return best_way;
 }
 
@@ -78,9 +81,9 @@ Solve::Solve(const std::string &file_a) {
         }
         std::sort(ind_cost.begin(), ind_cost.end(), compare );
         a.back().resize(ind_cost.size());
-        for (auto &i : ind_cost) {
-            a.back()[i.first] = i.second;
-            b.back().push_back(i.first);
+        for (auto &cost : ind_cost) {
+            a.back()[cost.first] = cost.second;
+            b.back().push_back(cost.first);
         }
 
     }
@@ -92,7 +95,20 @@ Solve::Solve(const std::string &file_a) {
     f_in.close();
 }
 
-int Solve::getBestCost() {
+Solve::Solve(const std::vector<Point> &points) {
+    int max_cost = 0;
+    a.resize(points.size());
+    for( auto &i : a ) {
+        i.resize(points.size(), 0);
+    }
+    for( int i = 1; i < points.size(); i++ ) {
+        for( int j = i - 1; j > 0; j-- ) {
+            a[i][j] = Point::distance(points[i], points[j]);
+        }
+    }
+}
+
+double Solve::getBestCost() {
     return best_cost;
 }
 

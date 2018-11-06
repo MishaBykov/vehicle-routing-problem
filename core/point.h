@@ -25,18 +25,7 @@ public:
         return fabs(p1.x - p2.x) + fabs(p1.y - p2.y);
     }
 
-    static std::vector <Point> read_points(const std::string &file_name) {
-        std::ifstream fin(file_name);
-        unsigned long n;
-        fin >> n;
-        std::vector <Point> result;
-        for (int i = 0; i < n; i++) {
-            int x, y;
-            fin >> x >> y;
-            result.emplace_back(x, y);
-        }
-        return result;
-    }
+    static std::vector<Point> read_points(const std::string &file_name);
 };
 
 
