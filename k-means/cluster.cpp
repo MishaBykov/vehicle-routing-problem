@@ -31,10 +31,12 @@ void Cluster::UpdateCenter(){
         if ( point_max.y < points[i].y )
             point_max.y = points[i].y;
     }
-    Point oldCenter = center;
-    center.x = (point_min.x + point_max.x) / 2;
-    center.y = (point_min.y + point_max.y)/ 2;
-    updateCenter = !(oldCenter == center);
+    Point oldCenter = GetCenter();
+    SetCenter((point_min.x + point_max.x) / 2,(point_min.y + point_max.y) / 2);
+    updateCenter = !(
+            fabs(oldCenter.x-GetCenter().x) < eps &&
+                    fabs(oldCenter.y-GetCenter().y) < eps
+    );
 }
 
 void Cluster::Clear(){
@@ -50,14 +52,3 @@ void Cluster::Add(Point point) {
 }
 
 Cluster::Cluster() = default;
-
-bool Point::operator==(Point point) {
-    return this->x == point.x && this->y == point.y;
-}
-
-Point::Point(int x, int y) : x(x), y(y) {}
-
-Point::Point() {
-    x = 0;
-    y = 0;
-}
