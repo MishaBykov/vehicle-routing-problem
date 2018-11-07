@@ -18,7 +18,8 @@ int main() {
 //        std::cout << i << ' ';
 //    }
 
-    std::vector<Point> points = Point::read_points("/home/misha/CLionProjects/vehicle-routing-problem/Taxicab_100.txt");
+    std::vector<Point> points = Point::read_points(
+            R"(C:\Users\Misha\CLionProjects\vehicle-routing-problem\Taxicab_100.txt)");
 
     KCluster kCluster(points, 5);
     kCluster.main();

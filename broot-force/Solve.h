@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <algorithm>
 #include "../core/Point.h"
@@ -45,6 +46,7 @@ void Solve::solve(int v, int count, double cost) {
         way[n - 1] = v;
 
         if (cost < best_cost) {
+            std::cout << "find best path" << std::endl;
             best_cost = cost;
             best_way = way;
         }
