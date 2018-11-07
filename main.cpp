@@ -18,13 +18,16 @@ int main() {
 //        std::cout << i << ' ';
 //    }
 
-    std::vector<Point> points = Point::read_points(
-            R"(C:\Users\Misha\CLionProjects\vehicle-routing-problem\Taxicab_100.txt)");
-
+    std::vector<Point> points = Point::read_points
+            ("/home/misha/CLionProjects/vehicle-routing-problem_1/Taxicab_100.txt");
+    Point begin_point = points[0];
+    points.erase(points.begin(), points.begin()+1);
     KCluster kCluster(points, 5);
     kCluster.main();
-    for(int i = 0; i < kCluster.size(); i++)
+    for(int i = 0; i < kCluster.size(); i++) {
+        kCluster.getCluster(i).insertBegin(begin_point);
         std::cout << kCluster.getCluster(static_cast<unsigned int>(i)).Size() << ' ';
+    }
     std::cout << std::endl;
     std::vector<Solve> solves;
     solves.reserve(kCluster.size());
@@ -32,6 +35,11 @@ int main() {
     for ( int i = 0; i < kCluster.size(); i++ ){
         solves.emplace_back(kCluster.getCluster(static_cast<unsigned int>(i)).getPoints());
         solves.back().solve(0, 0, 0);
+        std::cout << solves.back().getBestCost() << std::endl;
+        for( int j = 0; j < solves.back().getBestWay().size(); j++) {
+            std::cout << solves.back().getBestWay()[j] << ' ';
+        }
+        std::cout << std::endl;
         std::cout << "end solve" << i << std::endl;
     }
 

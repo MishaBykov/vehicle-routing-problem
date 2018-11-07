@@ -51,8 +51,12 @@ void Cluster::Add(Point point) {
     points.push_back(point);
 }
 
-std::vector<Point> Cluster::getPoints() {
+std::vector<Point>& Cluster::getPoints() {
     return points;
+}
+
+void Cluster::insertBegin(Point p) {
+    points.insert(points.begin(), p);
 }
 
 Cluster::Cluster() = default;

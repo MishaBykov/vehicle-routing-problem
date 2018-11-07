@@ -27,6 +27,7 @@ public:
     unsigned long Size();//получаем размер вектора
 
     void Add(Point pt);//Добавляем пиксель к кластеру
+    void insertBegin(Point p);
     void UpdateCenter();
 
     void Clear(); //Чистим вектор
@@ -36,7 +37,7 @@ public:
         return center;
     }
 
-    std::vector <Point> getPoints();
+    std::vector<Point>& getPoints();
 
     void SetCenter(double x, double y) {
         center.x = x;
