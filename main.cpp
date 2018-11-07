@@ -18,16 +18,20 @@ int main() {
 //        std::cout << i << ' ';
 //    }
 
-    std::vector<Point> points = Point::read_points("/home/misha/CLionProjects/vehicle-routing-problem/broot-force/test.txt");
+    std::vector<Point> points = Point::read_points("/home/misha/CLionProjects/vehicle-routing-problem/Taxicab_100.txt");
 
-    KCluster kCluster(points, 2);
+    KCluster kCluster(points, 5);
     kCluster.main();
+    for(int i = 0; i < kCluster.size(); i++)
+        std::cout << kCluster.getCluster(static_cast<unsigned int>(i)).Size() << ' ';
+    std::cout << std::endl;
     std::vector<Solve> solves;
     solves.reserve(kCluster.size());
-
+    std::cout << "end clusters" << std::endl;
     for ( int i = 0; i < kCluster.size(); i++ ){
         solves.emplace_back(kCluster.getCluster(static_cast<unsigned int>(i)).getPoints());
         solves.back().solve(0, 0, 0);
+        std::cout << "end solve" << i << std::endl;
     }
 
     for (auto &solve : solves) {
