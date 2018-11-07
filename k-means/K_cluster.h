@@ -19,6 +19,7 @@ public:
 
     void initialCenters();
     void pointsInClusters();
+    unsigned long size();
     void main();
     Cluster& getCluster(unsigned i);//Доступ  к элементам вектора
 

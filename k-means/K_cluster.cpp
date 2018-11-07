@@ -50,3 +50,7 @@ void KCluster::main(){
         }
     }
 }
+
+unsigned long KCluster::size() {
+    return vector_clusters.size();
+}

@@ -36,6 +36,8 @@ public:
         return center;
     }
 
+    std::vector <Point> getPoints();
+
     void SetCenter(double x, double y) {
         center.x = x;
         center.y = y;

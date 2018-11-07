@@ -99,9 +99,14 @@ Solve::Solve(const std::vector<Point> &points) {
         }
     }
     for(int i = 0; i < a.size(); i++) {
-        a[i][i] = max_cost;
+        a[i][i] = max_cost + 1;
     }
     getBFromA();
+    n = a.size();
+    way.resize(n);
+    best_way.resize(n);
+    n_new.resize(n, true);
+    best_cost = 10000000;
 }
 
 double Solve::getBestCost() {
@@ -115,24 +120,12 @@ std::vector<std::vector<int> > Solve::getBFromA() {
             ind_cost[j].first = j;
             ind_cost[j].second = i[j];
         }
+        std::sort(ind_cost.begin(), ind_cost.end(), compare );
+        b.emplace_back();
+        for (auto &j : ind_cost) {
+            b.back().emplace_back(j.first);
+        }
     }
-    std::sort(ind_cost.begin(), ind_cost.end(), compare );
-    b.emplace_back();
-    for(int j = 0; j < a.size(); j++) {
-        b.emplace_back(ind_cost[j].first);
-    }
-//    while (!ss.eof()) {
-//        ind_cost.emplace_back();
-//        ind_cost.back().first = i;
-//        ss >> ind_cost.back().second;
-//        i++;
-//    }
-//    std::sort(ind_cost.begin(), ind_cost.end(), compare );
-//    a.back().resize(ind_cost.size());
-//    for (auto &cost : ind_cost) {
-//        a.back()[cost.first] = cost.second;
-//        b.back().push_back(cost.first);
-//    }
     return std::vector<std::vector<int>>();
 }
 

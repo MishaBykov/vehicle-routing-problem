@@ -35,7 +35,7 @@ void Cluster::InitialCenter(int k, Cluster * clusarr, vector<POINT>& vpt){
 void Cluster::SetCenter(){
 	int sumX = 0, sumY = 0;
 	int i = 0;
-	int size = Size();
+	int size = size();
 	for(; i<size;sumX+=scores[i].x,i++);//the centers of mass by x
 	i = 0;
 	for(; i<size;sumY+=scores[i].y, i++);//the centers of mass by y
