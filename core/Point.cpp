@@ -2,7 +2,8 @@
 // Created by misha on 06.11.18.
 //
 
-#include "point.h"
+#include <iostream>
+#include "Point.h"
 
 bool Point::operator==(Point point) {
     return this->x == point.x && this->y == point.y;
@@ -16,10 +17,15 @@ Point::Point() {
 }
 
 std::vector<Point> Point::read_points(const std::string &file_name) {
-    std::ifstream fin(file_name);
+    std::vector <Point> result;
+    std::ifstream fin;
+    fin.open(file_name);
+    if (!fin.is_open()) {
+        std::cout << "Файл не найден" << std::endl;
+        return result;
+    }
     unsigned long n;
     fin >> n;
-    std::vector <Point> result;
     for (int i = 0; i < n; i++) {
         int x, y;
         fin >> x >> y;

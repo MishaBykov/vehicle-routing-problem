@@ -8,7 +8,7 @@
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
-#include "cluster.h"
+#include "Cluster.h"
 
 class KCluster {
     std::vector< Cluster > vector_clusters;

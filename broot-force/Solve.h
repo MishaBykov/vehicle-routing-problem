@@ -10,7 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include "../core/point.h"
+#include "../core/Point.h"
 
 class Solve {
 
@@ -21,6 +21,7 @@ class Solve {
     double best_cost;
     unsigned long n;
 
+    std::vector<std::vector<int> > getBFromA();
     static bool compare(std::pair<double, double> a, std::pair<double, double> b) {
         return a.second < b.second;
     }
@@ -68,25 +69,14 @@ Solve::Solve(const std::string &file_a) {
     std::string buf;
     while (!f_in.eof()) {
         a.emplace_back();
-        b.emplace_back();
         std::getline(f_in, buf);
         std::stringstream ss(buf);
-        std::vector< std::pair<int, int> > ind_cost;
-        int i = 0;
         while (!ss.eof()) {
-            ind_cost.emplace_back();
-            ind_cost.back().first = i;
-            ss >> ind_cost.back().second;
-            i++;
+            a.back().emplace_back();
+            ss >> a.back().back();
         }
-        std::sort(ind_cost.begin(), ind_cost.end(), compare );
-        a.back().resize(ind_cost.size());
-        for (auto &cost : ind_cost) {
-            a.back()[cost.first] = cost.second;
-            b.back().push_back(cost.first);
-        }
-
     }
+    getBFromA();
     n = a.size();
     way.resize(n);
     best_way.resize(n);
@@ -96,20 +86,54 @@ Solve::Solve(const std::string &file_a) {
 }
 
 Solve::Solve(const std::vector<Point> &points) {
-    int max_cost = 0;
+    double max_cost = 0;
     a.resize(points.size());
     for( auto &i : a ) {
         i.resize(points.size(), 0);
     }
-    for( int i = 1; i < points.size(); i++ ) {
-        for( int j = i - 1; j > 0; j-- ) {
+    for( int i = 0; i < points.size(); i++ ) {
+        for( int j = i - 1; j > -1; j-- ) {
             a[i][j] = Point::distance(points[i], points[j]);
+            a[j][i] = Point::distance(points[i], points[j]);
+            max_cost += a[i][j];
         }
     }
+    for(int i = 0; i < a.size(); i++) {
+        a[i][i] = max_cost;
+    }
+    getBFromA();
 }
 
 double Solve::getBestCost() {
     return best_cost;
+}
+
+std::vector<std::vector<int> > Solve::getBFromA() {
+    std::vector< std::pair<int, double> > ind_cost(a.size());
+    for (auto &i : a) {
+        for(int j = 0; j < a.size(); j++) {
+            ind_cost[j].first = j;
+            ind_cost[j].second = i[j];
+        }
+    }
+    std::sort(ind_cost.begin(), ind_cost.end(), compare );
+    b.emplace_back();
+    for(int j = 0; j < a.size(); j++) {
+        b.emplace_back(ind_cost[j].first);
+    }
+//    while (!ss.eof()) {
+//        ind_cost.emplace_back();
+//        ind_cost.back().first = i;
+//        ss >> ind_cost.back().second;
+//        i++;
+//    }
+//    std::sort(ind_cost.begin(), ind_cost.end(), compare );
+//    a.back().resize(ind_cost.size());
+//    for (auto &cost : ind_cost) {
+//        a.back()[cost.first] = cost.second;
+//        b.back().push_back(cost.first);
+//    }
+    return std::vector<std::vector<int>>();
 }
 
 #endif //VEHICLE_ROUTING_PROBLEM_SOLVE_H

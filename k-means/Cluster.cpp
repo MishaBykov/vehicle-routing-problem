@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "cluster.h"
+#include "Cluster.h"
 
 void Cluster::UpdateCenter(){
     Point point_max, point_min;

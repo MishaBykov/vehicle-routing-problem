@@ -3,8 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include "broot-force/Solve.h"
-#include "k-means/k_cluster.h"
-#include "k-means/cluster.h"
+#include "k-means/K_cluster.h"
+#include "k-means/Cluster.h"
 
 int main() {
     setlocale(LC_ALL, "rus");
@@ -17,8 +17,9 @@ int main() {
 //        std::cout << i + 1 << ' ';
 //    }
 
-    KCluster kCluster(Point::read_points("../in_points.txt"), 2);
-    kCluster.main();
+    std::vector<Point> points = Point::read_points("/home/misha/CLionProjects/vehicle-routing-problem/broot-force/test.txt");
+
+    Solve solve(points);
 
     return 0;
 }

@@ -3,7 +3,7 @@
 //
 #include <utility>
 #include <memory>
-#include "k_cluster.h"
+#include "K_cluster.h"
 
 KCluster::KCluster(std::vector< Point > points, const unsigned &k) : vector_points(std::move(points)) {
     vector_clusters.resize(k);
