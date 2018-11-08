@@ -46,9 +46,13 @@ void Solve::solve(int v, int count, double cost) {
         way[n - 1] = v;
 
         if (cost < best_cost) {
-            std::cout << "find best path" << std::endl;
             best_cost = cost;
             best_way = way;
+            std::cout << "-------------" << std::endl;
+            std::cout << best_cost << std::endl;
+            for(int i = 0; i < best_way.size(); i++)
+                std::cout << best_way[i] << ' ';
+            std::cout << std::endl;
         }
         return;
     }

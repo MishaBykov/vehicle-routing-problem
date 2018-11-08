@@ -29,6 +29,13 @@ int main() {
         std::cout << kCluster.getCluster(static_cast<unsigned int>(i)).Size() << ' ';
     }
     std::cout << std::endl;
+    for(int i = 0; i < kCluster.size(); i++) {
+        for (int j = 0; j < kCluster.getCluster(static_cast<unsigned int>(i)).getPoints().size(); j++) {
+            std::cout << kCluster.getCluster(static_cast<unsigned int>(i)).getPoints()[j].x << ' '
+                      << kCluster.getCluster(static_cast<unsigned int>(i)).getPoints()[j].y << ' ';
+        }
+        std::cout << std::endl;
+    }
     std::vector<Solve> solves;
     solves.reserve(kCluster.size());
     std::cout << "end clusters" << std::endl;
